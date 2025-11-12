@@ -1,0 +1,38 @@
+Installation
+1. python3 -m venv .xiao_env
+2. source .xiao_env/bin/activate
+3. pip install west
+4. west init zephyrproject
+5. cd zephyrproject
+6. west update
+7. west zephyr-export
+8. west packages pip --install
+9. cd zephyr
+10. west sdk install
+11. install arduino for mg24 and run blink code
+13. install openocd for xiao_nrf54
+  a. /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  b. brew install ccache
+  c. brew install openocd
+  d. add custom xiao_nrf54 board support
+12. setup script for xiao boards
+  a. edit .xiao_env/bin/activate file
+  b. at end paste env_scripts.txt content
+  c. save the file
+  d. source .xiao_env/bin/activate
+  e. go to folder you want to build and flash ex: /learn_xiao/firmware/samples/led/led_01
+  f. to build xiao_mg24_build
+  g. to flash xiao_mg24_flash
+  h. to build and flash xiao_mg24_build_flash
+
+13. on opening vscode workspace
+14. cd ..
+15. source .xiao_env/bin/activate
+16. go to folder you want to build and flash ex: /learn_xiao/firmware/samples/led/led_01
+17. to build for xiao_mg24
+  a. to build xiao_mg24_build
+  b. to flash xiao_mg24_flash
+  c. to build and flash xiao_mg24_build_flash
+18. to build and flash for xiao_nrf54
+  a. build using normal ncs way (build-xiao_nrf54l15)
+  b. xiao_nrf54_flash

@@ -1,0 +1,59 @@
+# --- Zephyr workspace + OpenOCD ---
+export ZEPHYR_WORKSPACE_XIAO="/Users/yogesh/projects/temp/xiao/zephyrproject"
+export ZEPHYR_WORKSPACE_NCS="/opt/nordic/ncs/v3.1.1"
+export OPENOCD_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/bin/openocd"
+export OPENOCD_SCRIPTS_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/share/openocd/scripts"
+
+# Run west from the workspace, passing through args
+westz () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
+westn () { ( cd "$ZEPHYR_WORKSPACE_NCS" && west "$@" ); }
+
+# Default board
+export MG24_BOARD_DEFAULT="xiao_mg24"
+export NRF54_BOARD_DEFAULT="xiao_nrf54l15"
+
+# --- Always pristine build ---
+# Usage: mg24_build [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
+xiao_mg24_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$MG24_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  westz build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+# --- Flash with automatic pristine rebuild ---
+# Usage: mg24_flash [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
+xiao_mg24_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$MG24_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  xiao_mg24_build "$src" "$board" || return $?
+
+  echo "🚀 Flashing from $builddir ..."
+  westz flash -d "$builddir" -r openocd -- \
+    --openocd "$OPENOCD_MG24" \
+    --openocd-search "$OPENOCD_SCRIPTS_MG24"
+}
+
+# --- One-shot: pristine build + flash (alias for mg24_flash) ---
+xiao_mg24_build_flash () {
+  xiao_mg24_flash "$@"
+}
+
+# --- Flash with automatic pristine rebuild ---
+xiao_nrf54_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$NRF54_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  westn flash -d "$builddir"
+}
