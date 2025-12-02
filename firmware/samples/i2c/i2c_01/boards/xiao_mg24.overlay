@@ -1,0 +1,73 @@
+/ {
+    pdm_imu_pwr: pdm-imu-pwr {
+		compatible = "regulator-fixed";
+		regulator-name = "pdm-imu-pwr";
+		enable-gpios = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		regulator-boot-on;
+        regulator-always-on;
+		startup-delay-us = <5000>;
+	};
+
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpioa 7 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+
+        appsw_0: appsw_0 {
+            gpios = <&gpioc 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "app switch 0";
+        };
+    };
+
+    // i2c1 {
+    //     status = "okay";
+    //     pinctrl-0 = <&i2c1_default>;
+	//     pinctrl-names = "default";
+    // };
+
+    aliases {
+        appled0 = &appled0;
+        appsw0 = &appsw_0;
+        apptimer0 = &sysrtc0;
+        appi2c0 = &i2c0;
+        appi2c1 = &i2c1;
+    };
+};
+
+&sysrtc0 {
+    status = "okay";
+};
+
+/* Enable and configure I2C0 */
+&i2c0 {
+    status = "okay";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-names = "default";
+};
+
+/* Enable and configure I2C1 */
+&i2c1 {
+    status = "okay";
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-names = "default";
+};
+
+&pinctrl {
+	i2c0_default: i2c0_default {
+		group0 {
+			pins = <I2C0_SDA_PB2>, <I2C0_SCL_PB3>;
+			drive-open-drain;
+			bias-pull-up;
+		};
+	};
+
+	i2c1_default: i2c1_default {
+		group0 {
+			pins = <I2C0_SCL_PC4>, <I2C0_SDA_PC5>;
+			drive-open-drain;
+			bias-pull-up;
+		};
+	};
+};

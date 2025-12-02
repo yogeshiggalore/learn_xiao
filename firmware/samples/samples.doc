@@ -12,6 +12,8 @@ Printk:
     2. printk_02: print number of time switch pressed
     3. printk_03: print number of times switch press using interrupt service routine
 
+log:
+
 Kernel timer:
     1. kt_01: toggle led with 500 ms kernel timer delay
 
@@ -42,11 +44,21 @@ Queues:
     1. mq_01: turn on and turn off led using switch and message queue
 
 Semaphore:
+    1. sp_01: turn on and turn off led using switch and semaphore
 
 Mailbox:
+    1. mb_01: turn on and turn off led using switch and mailbox
 
 Mutex:
+    1. mutex_01: turn on and turn off led using switch and mutex
 
 Workqueue:
+    1. wq_01: turn on and turn off led using switch and Workqueue
+
+fifo:
+
+pipes:
+
+events:
 
 ZBUS:

@@ -7,10 +7,15 @@ export OPENOCD_SCRIPTS_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLab
 # Run west from the workspace, passing through args
 westz () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westn () { ( cd "$ZEPHYR_WORKSPACE_NCS" && west "$@" ); }
+weste () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 
 # Default board
 export MG24_BOARD_DEFAULT="xiao_mg24"
-export NRF54_BOARD_DEFAULT="xiao_nrf54l15"
+export NRF54_APP_BOARD_DEFAULT="xiao_nrf54l15"
+export NRF54_FLPR_BOARD_DEFAULT="xiao_nrf54l15_flpr"
+export ESP32S3_SENSE_PROCPU_DEFAULT="xiao_esp32s3/esp32s3/procpu/sense"
+export ESP32S3_SENSE_APPCPU_DEFAULT="xiao_esp32s3/esp32s3/appcpu"
+
 
 # --- Always pristine build ---
 # Usage: mg24_build [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
@@ -50,10 +55,62 @@ xiao_mg24_build_flash () {
 }
 
 # --- Flash with automatic pristine rebuild ---
-xiao_nrf54_flash () {
+xiao_nrf54_cpuapp_flash () {
   local src="${1:-$PWD}"
-  local board="${2:-$NRF54_BOARD_DEFAULT}"
+  local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
-
   westn flash -d "$builddir"
+}
+
+xiao_nrf54_cpuflpr_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$NRF54_FLPR_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+  westn flash -d "$builddir"
+}
+
+xiao_esp32s3_appcpu_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"   # replace / with _ for folder
+
+  echo "🧱 Performing pristine build:"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  weste build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_esp32s3_appcpu_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+  weste flash -d "$builddir"
+}
+
+xiao_esp32s3_procpu_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_PROCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  weste build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_esp32s3_procpu_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_PROCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+  weste flash -d "$builddir"
+}
+
+xiao_esp32s3_monitor(){
+  weste espressif monitor
 }

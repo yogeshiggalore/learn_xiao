@@ -6,7 +6,26 @@
 	],
 	"settings": {
 		"nrf-connect.applications": [
-			"${workspaceFolder}/firmware/samples/led/blink"
+			"${workspaceFolder}/firmware/samples/led/blink",
+			"${workspaceFolder}/firmware/samples/helloworld",
+			"${workspaceFolder}/firmware/samples/oled/oled_01",
+			"${workspaceFolder}/firmware/samples/i2c/i2c_01",
+			"${workspaceFolder}/firmware/samples/switch/sw_01",
+			"${workspaceFolder}/firmware/samples/interrupt/isr_01",
+			"${workspaceFolder}/firmware/samples/printk/printk_01",
+			"${workspaceFolder}/firmware/samples/printk/printk_02",
+			"${workspaceFolder}/firmware/samples/printk/printk_03",
+			"${workspaceFolder}/firmware/samples/hardware_timer/ht_01",
+			"${workspaceFolder}/firmware/samples/msg_queue/mq_01",
+			"${workspaceFolder}/firmware/samples/pwm/pwm_01",
+			"${workspaceFolder}/firmware/samples/uart/uart_01",
+			"${workspaceFolder}/firmware/samples/uart/uart_02",
+			"${workspaceFolder}/firmware/samples/threads/thread_01",
+			"${workspaceFolder}/firmware/samples/threads/thread_02",
+			"${workspaceFolder}/firmware/samples/semaphore/sp_01",
+			"${workspaceFolder}/firmware/samples/mutex/mutex_01",
+			"${workspaceFolder}/firmware/samples/mailbox/mb_01",
+			"${workspaceFolder}/firmware/samples/workqueue/wq_01"
 		]
 	}
 }

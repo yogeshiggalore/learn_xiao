@@ -8,10 +8,10 @@
 #include <zephyr/sys/util.h>
 
 /* define led0 node */
-#define LED0_NODE DT_ALIAS(led0)
+#define LED0_NODE DT_ALIAS(appled0)
 
 /* define sw0 node */
-#define SW0_NODE DT_ALIAS(sw0)
+#define SW0_NODE DT_ALIAS(appsw0)
 
 /* get dt spec for led0 */
 static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);

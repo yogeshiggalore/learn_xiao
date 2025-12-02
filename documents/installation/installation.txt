@@ -36,3 +36,6 @@ Installation
 18. to build and flash for xiao_nrf54
   a. build using normal ncs way (build-xiao_nrf54l15)
   b. xiao_nrf54_flash
+19. to build and flash for xiao_esp32s3
+  a. to build xiao_esp32s3_procpu_build
+  b. to flash xiao_esp32s3_procpu_flash

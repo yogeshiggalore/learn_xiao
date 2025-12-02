@@ -4,10 +4,10 @@
 /* include device drivers */
 #include <zephyr/drivers/gpio.h>
 
-#define LED_SLEEP_TIME_MS   100
+#define LED_SLEEP_TIME_MS   500
 
-/* the device tree indentifier for the led0 node */
-#define LED0_NODE DT_ALIAS(led0)
+/* the device tree indentifier for the appled0 node */
+#define LED0_NODE DT_ALIAS(appled0)
 
 /* get devicetree spec for led0 node */
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);

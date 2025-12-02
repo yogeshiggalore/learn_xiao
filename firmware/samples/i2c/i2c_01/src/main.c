@@ -6,46 +6,46 @@
 
 #define MAX_I2C_ADDRESS 127
 
-struct device *dev_i2c30;
-struct device *dev_i2c22;
+struct device *dev_appi2c0;
+struct device *dev_appi2c1;
 
-#define I2C_30_NODE  DT_NODELABEL(i2c30)
-#define I2C_22_NODE  DT_NODELABEL(i2c22)
-
+#define I2C_0_NODE  DT_ALIAS(appi2c0)
+#define I2C_1_NODE  DT_ALIAS(appi2c1)
+	
 void scan_i2c_devices(const struct device *dev);
 
 int main(void)
 {
     k_sleep(K_MSEC(1000));
 
-    dev_i2c30 = DEVICE_DT_GET(I2C_30_NODE);
+    dev_appi2c0 = DEVICE_DT_GET(I2C_0_NODE);
 
-    if (!dev_i2c30)
+    if (!dev_appi2c0)
     {
-        printk("I2C_30 device not found\n");
+        printk("I2C_0 device not found\n");
         return -1;
     }
     else
     {
-        printk("I2C_30 device found\n");
+        printk("I2C_0 device found\n");
     }
 
-	dev_i2c22 = DEVICE_DT_GET(I2C_22_NODE);
+	dev_appi2c1 = DEVICE_DT_GET(I2C_1_NODE);
 
-    if (!dev_i2c22)
+    if (!dev_appi2c1)
     {
-        printk("I2C_22 device not found\n");
+        printk("I2C_1 device not found\n");
         return -1;
     }
     else
     {
-        printk("I2C_22 device found\n");
+        printk("I2C_1 device found\n");
     }
 
     while(true)
     {
-        scan_i2c_devices(dev_i2c30);
-		scan_i2c_devices(dev_i2c22);
+        scan_i2c_devices(dev_appi2c0);
+		scan_i2c_devices(dev_appi2c1);
         k_sleep(K_MSEC(5000));
     }
     

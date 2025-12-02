@@ -5,7 +5,9 @@
 #include <zephyr/drivers/gpio.h>
 
 /* the device tree indentifier for the led0 node */
-#define LED0_NODE DT_ALIAS(led0)
+#define LED0_NODE DT_ALIAS(appled0)
+
+#define UART0_NODE DT_ALIAS(appuart0)
 
 /* get devicetree spec for led0 node */
 static const struct gpio_dt_spec dev_led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
@@ -47,7 +49,7 @@ int main(void)
     cfg_uart.parity    = UART_CFG_PARITY_NONE;
     cfg_uart.stop_bits = UART_CFG_STOP_BITS_1;
 
-	dev_uart = DEVICE_DT_GET(DT_NODELABEL(uart20));
+	dev_uart = DEVICE_DT_GET(UART0_NODE);
 	if(!device_is_ready(dev_uart))
 	{
 		return -1;
@@ -96,13 +98,13 @@ void read_from_uart(void)
         {
             gpio_pin_set_dt(&dev_led, false);
             led_status = false;
-            write_to_uart("led off\r\n",9);
+            write_to_uart("led on\r\n",9);
         }
         else if((recvch == 'B') || (recvch == 'b'))
         {
             gpio_pin_set_dt(&dev_led, true);
             led_status = true;
-            write_to_uart("led on\r\n",8);
+            write_to_uart("led off\r\n",8);
         }
         else if((recvch == 'C') || (recvch == 'c'))
         {
