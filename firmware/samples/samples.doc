@@ -33,6 +33,12 @@ Ultrasonic sensor:
 SPI:
     1.
 
+Flash:
+    1. 
+
+RTC:
+    1.
+    
 NeoPixel:
     1.
 

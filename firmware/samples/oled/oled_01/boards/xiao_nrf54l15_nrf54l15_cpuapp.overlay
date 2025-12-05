@@ -1,9 +1,12 @@
 / {
-
+	chosen {
+        zephyr,display = &ssd1306_1;
+    };
 };
 
 &i2c22 {
-	ssd1306: ssd1306@3c {
+	status = "okay";
+	ssd1306_1: ssd1306@3c {
 		compatible = "solomon,ssd1306fb";
 		reg = <0x3c>;
 		height = <32>;
@@ -13,7 +16,24 @@
 		display-offset = <0>;
 		multiplex-ratio = <63>;
 		prechargep = <0x22>;
-		//com-invdir;
-		//segment-remap;
+		com-invdir;
+		segment-remap;
+	};
+};
+
+&pinctrl {
+	i2c22_default: i2c22_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 1, 10)>,
+				<NRF_PSEL(TWIM_SCL, 1, 11)>;
+		};
+	};
+
+	i2c22_sleep: i2c22_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 1, 10)>,
+				<NRF_PSEL(TWIM_SCL, 1, 11)>;
+			low-power-enable;
+		};
 	};
 };

@@ -25,7 +25,8 @@
 			"${workspaceFolder}/firmware/samples/semaphore/sp_01",
 			"${workspaceFolder}/firmware/samples/mutex/mutex_01",
 			"${workspaceFolder}/firmware/samples/mailbox/mb_01",
-			"${workspaceFolder}/firmware/samples/workqueue/wq_01"
+			"${workspaceFolder}/firmware/samples/workqueue/wq_01",
+			"${workspaceFolder}/firmware/samples/spi/spi_01"
 		]
 	}
 }
