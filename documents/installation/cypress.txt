@@ -1,0 +1,10 @@
+1. go zephyr installation directory
+    cd zephyrproject
+2. intall infineon blobs
+    west blobs fectch hal_infineon
+3. install modusToolbox programming tools
+4. for testing 
+    a. west config build.cmake-args -- -DOPENOCD=path/to/infineon/openocd/bin/openocd
+        ex: west config build.cmake-args -- -DOPENOCD=/Applications/ModusToolboxProgtools-1.7/openocd/bin/openocd
+    b. west build -b cy8cproto_063_ble -p always samples/basic/blinky
+    c. west flash

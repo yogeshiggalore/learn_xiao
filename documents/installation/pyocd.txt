@@ -1,0 +1,29 @@
+1. install dependency
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -U pyocd libusb-package
+
+2. list any pyocd supported device
+    pyocd list
+
+3. if any connected device then it will list as shown below
+        #   Probe/Board                                      Unique ID   Target  
+    ---------------------------------------------------------------------------
+    0   Seeed Studio Seeed Studio XIAO nrf54 CMSIS-DAP   1AB3CF20    n/a    
+
+4. mass erase to unlock
+    pyocd erase -t nrf54l --mass -u <UNIQUE_ID> -v
+
+    ex: pyocd erase -t nrf54l --mass -u 1AB3CF20 -v
+
+5. if any issue, erase with lower frequency 
+    pyocd erase -t nrf54l --mass -u 1AB3CF20 --frequency 50000 -v
+
+6. program device
+    pyocd load -t nrf54l -u <UNIQUE_ID> /Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/spi/spi_02/build-xiao_nrf54l15/merged.hex
+
+    ex: pyocd load -t nrf54l -u 1AB3CF20 --frequency 100000 /Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/spi/spi_02/build-xiao_nrf54l15/merged.hex
+
+
+
+

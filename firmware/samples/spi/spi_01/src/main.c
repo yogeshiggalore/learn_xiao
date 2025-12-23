@@ -69,13 +69,6 @@ void read_jedec_id(const struct spi_dt_spec *spec, struct jedec_id *id)
         id->mem_type = rx_buffer[2];
         id->capacity = rx_buffer[3];
     }
-	else
-	{
-        printk("SPI Error: %d\n", err);
-        id->manuf_id = 0xFF;
-        id->mem_type = 0xFF;
-        id->capacity = 0xFF;
-    }
 
 	printk("manf id: %02X mem_type: %02X capacity: %02X\n", id->manuf_id, id->mem_type, id->capacity);
 }
@@ -83,7 +76,7 @@ void read_jedec_id(const struct spi_dt_spec *spec, struct jedec_id *id)
 void read_unique_id(const struct spi_dt_spec *spec, uint8_t *id, uint8_t len)
 {
 	int err;
-    uint8_t tx_buffer[3] = { 0x4B, 0x00, 0x00,};
+    uint8_t tx_buffer[4] = { 0x4B, 0x00, 0x00, 0x00, 0x00};
     uint8_t rx_buffer[12] = { 0 };
 
     struct spi_buf tx_buf = { .buf = tx_buffer, .len = sizeof(tx_buffer) };

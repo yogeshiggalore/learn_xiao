@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start pyOCD gdbserver (nrf54l)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "pkill -f 'pyocd gdbserver' >/dev/null 2>&1 || true; " +
+        "/Users/yogesh/projects/temp/xiao/.xiao_env/bin/pyocd gdbserver " +
+        "--port 50000 --telnet-port 50001 " +
+        "--target nrf54l -u 2208640E " +
+        "--frequency 50000 --connect under-reset -v"
+      ],
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "owner": "pyocd",
+          "pattern": [{ "regexp": "^(.*)$" }],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".*",
+            "endsPattern": "GDB server listening on port 50000"
+          }
+        }
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    }
+  ]
+}

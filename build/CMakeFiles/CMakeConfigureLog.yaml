@@ -1,0 +1,974 @@
+
+---
+events:
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/zephyr_package_search.cmake:72 (find_package)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfigVersion.cmake:132 (check_zephyr_package)"
+      - "CMakeLists.txt:2 (find_package)"
+    name: "Zephyr"
+    configs:
+      -
+        filename: "ZephyrConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "zephyr-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "0.0.0"
+      version_complete: "0.0.0"
+      exact: true
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Zephyr"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/.antigravity/antigravity/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/.antigravity/antigravity/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/opt/python/libexec/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/opt/python/libexec/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Library/Frameworks/Python.framework/Versions/3.12/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Library/Frameworks/Python.framework/Versions/3.12/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/System/Cryptexes/App/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/System/Cryptexes/App/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/go/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/go/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/Library/Infineon/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/Library/Infineon/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.1.1/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v3.1.1/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/Users/yogesh/zephyrproject/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v2.6.1/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v2.6.1/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v2.8.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v2.8.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/zephyrproject/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/mg24/zephyrproject/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/Users/yogesh/projects/temp/mg24/zephyrproject/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v2.7.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v2.7.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v2.9.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v2.9.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v2.6.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v2.6.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v3.0.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.1.0/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v3.1.0/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/zephyr_package_search.cmake:72 (find_package)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:152 (check_zephyr_package)"
+      - "CMakeLists.txt:2 (find_package)"
+    name: "Zephyr"
+    configs:
+      -
+        filename: "ZephyrConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "zephyr-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "0.0.0"
+      version_complete: "0.0.0"
+      exact: true
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Zephyr"
+      search_paths:
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/zephyr"
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples"
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/zephyr"
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware"
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/zephyr"
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao"
+        - "/Users/yogesh/projects/temp/xiao/zephyr"
+        - "/Users/yogesh/projects/temp/xiao"
+        - "/Users/yogesh/projects/temp/zephyr"
+        - "/Users/yogesh/projects/temp"
+        - "/Users/yogesh/projects/zephyr"
+        - "/Users/yogesh/projects"
+        - "/Users/yogesh/zephyr"
+        - "/Users/yogesh"
+        - "/Users/zephyr"
+        - "/Users"
+        - "//zephyr"
+        - "/"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: false
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+        mode: "none?"
+        reason: "insufficient_version"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/zephyr-config.cmake"
+        mode: "none?"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/zephyrproject/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/zephyrproject/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/zephyr_learn/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/zephyr_learn/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyrenv/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyrenv/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyrproject/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyrproject/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/cmake/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/cmake/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/cmake/zephyr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.1/cmake/zephyr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/cmake/zephyr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/zephyr-sdk-0.17.4/cmake/zephyr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/zephyr_default.cmake:28 (find_package)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:159 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    name: "ZephyrBuildConfiguration"
+    configs:
+      -
+        filename: "ZephyrBuildConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "zephyrbuild-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: false
+      bypass_provider: false
+      names:
+        - "ZephyrBuild"
+      search_paths:
+        - "/opt/nordic/ncs/v3.0.2/zephyr/../*"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: false
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: false
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: false
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: false
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/tools/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/tools/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/test/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/test/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/bootloader/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/bootloader/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/cmake/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/cmake/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/share/zephyrbuild-package/ZephyrBuildConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/nordic/ncs/v3.0.2/nrf/share/zephyrbuild-package/zephyrbuild-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/opt/nordic/ncs/v3.0.2/nrf/share/zephyrbuild-package/cmake/ZephyrBuildConfig.cmake"
+      mode: "config"
+      version: ""
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/zephyr_default.cmake:41 (find_package)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:159 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    name: "ZephyrAppConfiguration"
+    configs:
+      -
+        filename: "ZephyrAppConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "zephyrapp-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: false
+      bypass_provider: false
+      names:
+        - "ZephyrApp"
+      search_paths:
+        - "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/helloworld"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: false
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: false
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: false
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: false
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/ZephyrAppConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/zephyrapp-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/helloworld/ZephyrAppConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/helloworld/zephyrapp-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found: null
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/python.cmake:28 (find_program)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/zephyr_default.cmake:133 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:159 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    mode: "program"
+    variable: "Python3_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "python"
+    candidate_directories:
+      - "/Users/yogesh/.antigravity/antigravity/bin/"
+      - "/usr/local/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/opt/python/libexec/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.12/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/local/go/bin/"
+      - "/Users/yogesh/Library/Infineon/usr/bin/"
+    searched_directories:
+      - "/Users/yogesh/.antigravity/antigravity/bin/python"
+      - "/usr/local/bin/python"
+      - "/opt/homebrew/bin/python"
+      - "/opt/homebrew/sbin/python"
+    found: "/opt/homebrew/opt/python/libexec/bin/python"
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/ccache.cmake:10 (find_program)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/cmake/modules/zephyr_default.cmake:133 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:159 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    mode: "program"
+    variable: "CCACHE_FOUND"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ccache"
+    candidate_directories:
+      - "/Users/yogesh/.antigravity/antigravity/bin/"
+      - "/usr/local/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/opt/python/libexec/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.12/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/local/go/bin/"
+      - "/Users/yogesh/Library/Infineon/usr/bin/"
+    searched_directories:
+      - "/Users/yogesh/.antigravity/antigravity/bin/ccache"
+      - "/usr/local/bin/ccache"
+    found: "/opt/homebrew/bin/ccache"
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "CMakeLists.txt:2 (find_package)"
+    name: "Zephyr"
+    configs:
+      -
+        filename: "ZephyrConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "zephyr-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Zephyr"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/projects/temp/xiao/learn_xiao/build/CMakeFiles/pkgRedirects/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/.antigravity/antigravity/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/.antigravity/antigravity/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/opt/python/libexec/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/opt/homebrew/opt/python/libexec/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Library/Frameworks/Python.framework/Versions/3.12/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Library/Frameworks/Python.framework/Versions/3.12/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/System/Cryptexes/App/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/System/Cryptexes/App/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/go/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/local/go/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/Library/Infineon/usr/ZephyrConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/yogesh/Library/Infineon/usr/zephyr-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/opt/nordic/ncs/v3.0.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake"
+      mode: "config"
+      version: "4.0.99"
+    search_context:
+      ENV{PATH}:
+        - "/Users/yogesh/.antigravity/antigravity/bin"
+        - "/usr/local/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/opt/homebrew/opt/python/libexec/bin"
+        - "/usr/local/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.12/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/usr/local/go/bin"
+        - "/Users/yogesh/Library/Infineon/usr/bin"
+...

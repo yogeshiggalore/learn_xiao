@@ -4,7 +4,7 @@
 /* include device drivers */
 #include <zephyr/drivers/gpio.h>
 
-#define LED_SLEEP_TIME_MS   100
+#define LED_SLEEP_TIME_MS   5000
 
 /* the device tree indentifier for the appled0 node */
 #define LED0_NODE DT_ALIAS(appled0)
@@ -12,9 +12,13 @@
 /* get devicetree spec for led0 node */
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
+static volatile uint32_t cntr;
+
 int main(void)
 {
 	int ret;
+
+	cntr=0;
 
 	/* check if the led port is ready */
 	if (!device_is_ready(led.port))
@@ -35,6 +39,7 @@ int main(void)
 		gpio_pin_toggle(led.port, led.pin);
 		/* sleep for some time */
 		k_msleep(LED_SLEEP_TIME_MS);
+		cntr++;
 	}
 
     return 0;

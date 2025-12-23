@@ -68,3 +68,6 @@ pipes:
 events:
 
 ZBUS:
+
+Debug:
+    1. db_01: test debug working

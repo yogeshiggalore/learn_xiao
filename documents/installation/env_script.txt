@@ -3,11 +3,15 @@ export ZEPHYR_WORKSPACE_XIAO="/Users/yogesh/projects/temp/xiao/zephyrproject"
 export ZEPHYR_WORKSPACE_NCS="/opt/nordic/ncs/v3.1.1"
 export OPENOCD_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/bin/openocd"
 export OPENOCD_SCRIPTS_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/share/openocd/scripts"
+export PYOCD_NRF54_VENV="/Users/yogesh/projects/temp/xiao/.xiao_env/bin/pyocd"
+export OPENOCD_INFINEON="${OPENOCD_INFINEON:-/Applications/ModusToolboxProgtools-1.7/openocd/bin/openocd}"
+export OPENOCD_INFINEON_SCRIPTS="${OPENOCD_INFINEON_SCRIPTS:-/Applications/ModusToolboxProgtools-1.7/openocd/scripts}"
 
 # Run west from the workspace, passing through args
 westz () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westn () { ( cd "$ZEPHYR_WORKSPACE_NCS" && west "$@" ); }
 weste () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
+westi () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 
 # Default board
 export MG24_BOARD_DEFAULT="xiao_mg24"
@@ -15,7 +19,8 @@ export NRF54_APP_BOARD_DEFAULT="xiao_nrf54l15"
 export NRF54_FLPR_BOARD_DEFAULT="xiao_nrf54l15_flpr"
 export ESP32S3_SENSE_PROCPU_DEFAULT="xiao_esp32s3/esp32s3/procpu/sense"
 export ESP32S3_SENSE_APPCPU_DEFAULT="xiao_esp32s3/esp32s3/appcpu"
-
+export PYOCD_XIAO_NRF54L15="nrf54l"
+export INFINEON_BOARD_DEFAULT="${INFINEON_BOARD_DEFAULT:-cy8cproto_063_ble}"
 
 # --- Always pristine build ---
 # Usage: mg24_build [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
@@ -60,6 +65,13 @@ xiao_nrf54_cpuapp_flash () {
   local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
   westn flash -d "$builddir"
+}
+
+xiao_nrf54_cpuapp_debug () {
+  local src="${1:-$PWD}"
+  local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+  westn debug -d "$builddir"
 }
 
 xiao_nrf54_cpuflpr_flash () {
@@ -114,3 +126,59 @@ xiao_esp32s3_procpu_flash () {
 xiao_esp32s3_monitor(){
   weste espressif monitor
 }
+
+xiao_nrf54_cpuapp_flash_pyocd () {
+  local src="${1:-$PWD}"
+  local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  # chip erase is often safest while bringing up a new target
+  local erase_opt="--flash-opt=-e=chip"
+
+  westn flash -d "$builddir" -r pyocd -- \
+    --pyocd "$PYOCD_NRF54_VENV" \
+    --target "$PYOCD_XIAO_NRF54L15" \
+    $erase_opt
+}
+
+infineon_zephyr_config_openocd () {
+  echo "🔧 Setting west build.cmake-args OPENOCD => $OPENOCD_INFINEON"
+  westi config build.cmake-args -- -DOPENOCD="$OPENOCD_INFINEON"
+}
+
+psoc6_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$INFINEON_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Workspace:  $ZEPHYR_WORKSPACE_ZEPHYRPROJECT"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "  OPENOCD:    $OPENOCD_INFINEON"
+  echo "------------------------------------"
+
+  # Ensure OPENOCD cmake arg is set for this workspace
+  infineon_zephyr_config_openocd || return $?
+
+  westi build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+# Flash (auto pristine rebuild)
+# Usage: psoc6_flash [src_dir=<path>] [board=$INFINEON_BOARD_DEFAULT]
+psoc6_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$INFINEON_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  psoc6_build "$src" "$board" || return $?
+
+  echo "🚀 Flashing from $builddir ..."
+  # Usually just 'west flash' works for cy8cproto_063_ble once OPENOCD is set
+  westi flash -d "$builddir"
+}
+
+# One-shot alias: build + flash
+psoc6_build_flash () { psoc6_flash "$@"; }
