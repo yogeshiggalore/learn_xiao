@@ -1,0 +1,77 @@
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpio_prt6 3 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+        appflash = &w25q32;
+    };
+};
+
+uart0: &scb2 {
+	compatible = "infineon,cat1-uart";
+	status = "okay";
+	current-speed = <115200>;
+
+	/* UART pins */
+	pinctrl-0 = <&p9_1_scb2_uart_tx &p9_0_scb2_uart_rx>;
+	pinctrl-names = "default";
+};
+
+/* SPI on SCB1: P10_0 MOSI, P10_1 MISO, P10_2 SCLK, P10_3 CS(SS0) */
+
+spi0:&scb1 {
+	compatible = "infineon,cat1-spi";
+	status = "okay";
+
+	/* Same pattern as UART: use pre-defined pinctrl nodes (if present) */
+	pinctrl-0 = <
+		&p10_0_scb1_spi_mosi
+		&p10_1_scb1_spi_miso
+		&p10_2_scb1_spi_sclk
+		&p10_3_scb1_spi_ss0
+	>;
+	pinctrl-names = "default";
+
+	/*
+	 * If you are using the SCB hardware SS line (P10_3), you typically DO NOT need cs-gpios.
+	 * Use cs-gpios only if you want a GPIO-controlled CS pin.
+	 */
+
+	w25q32: w25q32@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <8000000>;
+	};
+};
+
+&pinctrl{
+	/omit-if-no-ref/ p9_1_scb2_uart_tx: p9_1_scb2_uart_tx {
+		pinmux = <DT_CAT1_PINMUX(9, 1, HSIOM_SEL_ACT_6)>;
+	};
+
+	/omit-if-no-ref/ p9_0_scb2_uart_rx: p9_0_scb2_uart_rx {
+		pinmux = <DT_CAT1_PINMUX(9, 0, HSIOM_SEL_ACT_6)>;
+	};
+
+	/omit-if-no-ref/ p10_0_scb1_spi_mosi: p10_0_scb1_spi_mosi {
+		pinmux = <DT_CAT1_PINMUX(10, 0, HSIOM_SEL_ACT_5)>;
+	};
+
+	/omit-if-no-ref/ p10_1_scb1_spi_miso: p10_1_scb1_spi_miso {
+		pinmux = <DT_CAT1_PINMUX(10, 1, HSIOM_SEL_ACT_5)>;
+	};
+
+	/omit-if-no-ref/ p10_2_scb1_spi_sclk: p10_2_scb1_spi_sclk {
+		pinmux = <DT_CAT1_PINMUX(10, 2, HSIOM_SEL_ACT_5)>;
+	};
+
+	/omit-if-no-ref/ p10_3_scb1_spi_ss0: p10_3_scb1_spi_ss0 {
+		pinmux = <DT_CAT1_PINMUX(10, 3, HSIOM_SEL_ACT_5)>;
+	};
+};

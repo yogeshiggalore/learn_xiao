@@ -12,6 +12,7 @@ westz () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westn () { ( cd "$ZEPHYR_WORKSPACE_NCS" && west "$@" ); }
 weste () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westi () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
+westr () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 
 # Default board
 export MG24_BOARD_DEFAULT="xiao_mg24"
@@ -21,6 +22,7 @@ export ESP32S3_SENSE_PROCPU_DEFAULT="xiao_esp32s3/esp32s3/procpu/sense"
 export ESP32S3_SENSE_APPCPU_DEFAULT="xiao_esp32s3/esp32s3/appcpu"
 export PYOCD_XIAO_NRF54L15="nrf54l"
 export INFINEON_BOARD_DEFAULT="${INFINEON_BOARD_DEFAULT:-cy8cproto_063_ble}"
+export RA4M1_BOARD_DEFAULT="xiao_ra4m1"
 
 # --- Always pristine build ---
 # Usage: mg24_build [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
@@ -182,3 +184,64 @@ psoc6_flash () {
 
 # One-shot alias: build + flash
 psoc6_build_flash () { psoc6_flash "$@"; }
+
+psoc6_debug () {
+  local src="${1:-$PWD}"
+  local board="${2:-$INFINEON_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+  local elf="${builddir}/zephyr/zephyr.elf"
+
+  echo "🐞 Debug (build + flash + debugserver)"
+  echo "  Source:    $src"
+  echo "  Board:     $board"
+  echo "  Build dir: $builddir"
+  echo "  ELF:       $elf"
+  echo "------------------------------------"
+
+  # 1) Build (pristine if that's how your psoc6_build is defined)
+  psoc6_build "$src" "$board" || return $?
+
+  if [ ! -f "$elf" ]; then
+    echo "❌ ELF not found: $elf"
+    return 1
+  fi
+
+  # 2) Convert builddir to absolute path (because westi runs from zephyrproject)
+  local abs_builddir
+  abs_builddir="$(cd "$builddir" && pwd)"
+
+  # 3) Flash THE SAME build we will debug
+  echo "🚀 Flashing same build dir used for debug..."
+  westi flash -d "$abs_builddir" || return $?
+
+  # 4) Start debugserver on THE SAME build dir
+  echo "🟢 Starting debugserver..."
+  westi debugserver -d "$abs_builddir" --runner openocd
+}
+
+
+xiao_ra4m1_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$RA4M1_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  westr build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_ra4m1_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$RA4M1_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  xiao_ra4m1_build "$src" "$board" || return $?
+
+  echo "🚀 Flashing from $builddir ..."
+  westr flash -d "$builddir"
+}

@@ -1,8 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
+	"folders": [ 
+		{ "name": "root", "path": "." },
+		{ "name": "db_01", "path": "firmware/samples/debug/db_01" } 
 	],
 	"settings": {
 		"nrf-connect.applications": [
@@ -28,7 +27,8 @@
 			"${workspaceFolder}/firmware/samples/workqueue/wq_01",
 			"${workspaceFolder}/firmware/samples/spi/spi_01",
 			"${workspaceFolder}/firmware/samples/spi/spi_02",
-			"${workspaceFolder}/firmware/samples/debug/db_01"
+			"${workspaceFolder}/firmware/samples/debug/db_01",
+			"${workspaceFolder}/firmware/samples/adc/adc_01"
 		]
 	}
 }

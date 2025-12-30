@@ -1,0 +1,29 @@
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpio_prt6 3 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+        appi2c0 = &i2c0;
+        appi2c1 = &i2c1;
+    };
+};
+
+i2c0: &scb6 {
+	compatible = "infineon,cat1-i2c";
+	status = "okay";
+    pinctrl-0 = <&p6_5_scb6_i2c_sda &p6_4_scb6_i2c_scl>;
+	pinctrl-names = "default";
+};
+
+i2c1: &scb1 {
+	compatible = "infineon,cat1-i2c";
+	status = "okay";
+	pinctrl-0 = <&p10_1_scb1_i2c_sda &p10_0_scb1_i2c_scl>;
+	pinctrl-names = "default";
+};

@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "PSoC6-CM4",
+      "type": "cortex-debug",
+      "request": "attach",
+      "servertype": "external",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder:}/firmware/samples/debug/db_01/build-cy8cproto_063_ble/zephyr/zephyr.elf",
+      "gdbPath": "/opt/homebrew/bin/arm-none-eabi-gdb",
+      "gdbTarget": "localhost:3334"
+    },
+    {
+      "name": "PSoC6-CM0+",
+      "type": "cortex-debug",
+      "request": "attach",
+      "servertype": "external",
+      "cwd": "${workspaceFolder:db_01}",
+      "executable": "${workspaceFolder:db_01}/build-cy8cproto_063_ble/zephyr/zephyr.elf",
+      "gdbPath": "/opt/homebrew/bin/arm-none-eabi-gdb",
+      "gdbTarget": "localhost:3333"
+    }
+  ]
+}

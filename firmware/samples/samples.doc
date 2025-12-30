@@ -31,10 +31,14 @@ Ultrasonic sensor:
     1. interface gpio based ultrasonic sensor HC-SR04.
 
 SPI:
-    1.
+    1. spi_01: read external flash jdec id
+    2. spi_02: read/write all registers of external flash
 
 Flash:
     1. 
+
+ADC:
+    1. adc_01: read potentiometer values
 
 RTC:
     1.
