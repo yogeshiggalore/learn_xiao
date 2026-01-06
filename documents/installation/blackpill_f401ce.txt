@@ -1,0 +1,6 @@
+1. brew update
+2. brew install cmake ninja gperf python3 dtc libusb dfu-util
+3. activate python env 
+4. to list dfu-utils 
+    dfu-util -l
+5. west flash

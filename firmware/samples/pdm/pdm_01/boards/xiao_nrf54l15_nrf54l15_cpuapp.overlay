@@ -1,0 +1,36 @@
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+        appmic = &pdm20;
+    };
+};
+
+&uart20 {
+	current-speed = <921600>;
+	pinctrl-0 = <&uart20_default>;
+	pinctrl-1 = <&uart20_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&pdm20 {
+    status = "okay";
+    pinctrl-0 = <&pdm20_default_custom>;
+    pinctrl-names = "default";
+};
+
+&pinctrl {
+    pdm20_default_custom: pdm20_default_custom {
+        group1 {
+            psels = <NRF_PSEL(PDM_CLK, 1, 12)>,
+                    <NRF_PSEL(PDM_DIN, 1, 13)>;
+        };
+    };
+};

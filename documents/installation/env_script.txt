@@ -1,11 +1,12 @@
 # --- Zephyr workspace + OpenOCD ---
 export ZEPHYR_WORKSPACE_XIAO="/Users/yogesh/projects/temp/xiao/zephyrproject"
-export ZEPHYR_WORKSPACE_NCS="/opt/nordic/ncs/v3.1.1"
+export ZEPHYR_WORKSPACE_NCS="/opt/nordic/ncs/v3.2.0"
 export OPENOCD_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/bin/openocd"
 export OPENOCD_SCRIPTS_MG24="/Users/yogesh/Library/Arduino15/packages/SiliconLabs/tools/openocd/0.12.0-arduino1-static/share/openocd/scripts"
 export PYOCD_NRF54_VENV="/Users/yogesh/projects/temp/xiao/.xiao_env/bin/pyocd"
 export OPENOCD_INFINEON="${OPENOCD_INFINEON:-/Applications/ModusToolboxProgtools-1.7/openocd/bin/openocd}"
 export OPENOCD_INFINEON_SCRIPTS="${OPENOCD_INFINEON_SCRIPTS:-/Applications/ModusToolboxProgtools-1.7/openocd/scripts}"
+export RFP_CLI="${RFP_CLI:-/Users/yogesh/renesas_rfp/rfp-cli}"
 
 # Run west from the workspace, passing through args
 westz () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
@@ -13,6 +14,8 @@ westn () { ( cd "$ZEPHYR_WORKSPACE_NCS" && west "$@" ); }
 weste () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westi () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 westr () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
+wests () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
+westrp () { ( cd "$ZEPHYR_WORKSPACE_XIAO" && west "$@" ); }
 
 # Default board
 export MG24_BOARD_DEFAULT="xiao_mg24"
@@ -23,50 +26,189 @@ export ESP32S3_SENSE_APPCPU_DEFAULT="xiao_esp32s3/esp32s3/appcpu"
 export PYOCD_XIAO_NRF54L15="nrf54l"
 export INFINEON_BOARD_DEFAULT="${INFINEON_BOARD_DEFAULT:-cy8cproto_063_ble}"
 export RA4M1_BOARD_DEFAULT="xiao_ra4m1"
+export BLACKPILLF401CC_BOARD_DEFAULT="${BLACKPILL_BOARD_DEFAULT:-blackpill_f401cc}"
+export XIAO_SAMD21_DEFAULT="${XIAO_BOARD_DEFAULT:-seeeduino_xiao}"
+export XIAO_RP2350_BOARD_DEFAULT="xiao_rp2350"
+export XIAO_RP2040_BOARD_DEFAULT="xiao_rp2040"
 
-# --- Always pristine build ---
-# Usage: mg24_build [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
+export UF2_VOL_xRP2040_DEFAULT="${UF2_VOL_RP2040_DEFAULT:-/Volumes/RP2040}"
+export UF2_VOL_xRP2350_DEFAULT="${UF2_VOL_RP2350_DEFAULT:-/Volumes/RP2350}"
+
 xiao_mg24_build () {
   local src="${1:-$PWD}"
   local board="${2:-$MG24_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
 
-  echo "🧱 Performing pristine build:"
-  echo "  Source:     $src"
-  echo "  Build dir:  $builddir"
-  echo "  Board:      $board"
-  echo "------------------------------------"
+  echo "🧱 Building (MG24 + sysbuild)"
+  echo "  Source: $src"
+  echo "  Build:  $builddir"
 
-  westz build -p always -b "$board" -s "$src" -d "$builddir"
+  westz build \
+    -p always \
+    --sysbuild \
+    -b "$board" \
+    -s "$src" \
+    -d "$builddir"
 }
 
-# --- Flash with automatic pristine rebuild ---
-# Usage: mg24_flash [src_dir=. ] [board=$MG24_BOARD_DEFAULT]
 xiao_mg24_flash () {
   local src="${1:-$PWD}"
   local board="${2:-$MG24_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
 
-  echo "⚙️  Building (pristine) before flashing..."
-  xiao_mg24_build "$src" "$board" || return $?
+  echo "🚀 Flashing application only (MG24)"
 
-  echo "🚀 Flashing from $builddir ..."
+  [[ -d "$builddir" ]] || {
+    echo "❌ Build directory not found: $builddir"
+    return 1
+  }
+
   westz flash -d "$builddir" -r openocd -- \
     --openocd "$OPENOCD_MG24" \
     --openocd-search "$OPENOCD_SCRIPTS_MG24"
 }
 
-# --- One-shot: pristine build + flash (alias for mg24_flash) ---
-xiao_mg24_build_flash () {
-  xiao_mg24_flash "$@"
+xiao_mg24_detect_app_domain () {
+  local builddir="$1"
+  # pick first directory that looks like a domain and isn't mcuboot
+  find "$builddir" -maxdepth 1 -mindepth 1 -type d \
+    ! -name mcuboot ! -name zephyr ! -name sysbuild ! -name modules ! -name CMakeFiles ! -name _deps \
+    -exec test -d "{}/zephyr" \; -print \
+  | head -n1 | xargs -I{} basename "{}"
 }
 
-# --- Flash with automatic pristine rebuild ---
+
+xiao_mg24_flash_all () {
+  local src="${1:-$PWD}"
+  local board="${2:-$MG24_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🏭 Factory flash (MCUboot + application)"
+
+  [[ -d "$builddir" ]] || { echo "❌ Build directory not found: $builddir"; return 1; }
+
+  local app_domain
+  app_domain="$(xiao_mg24_detect_app_domain "$builddir")"
+  [[ -n "$app_domain" ]] || { echo "❌ Could not detect app domain"; return 1; }
+  echo "✅ App domain: $app_domain"
+
+  # Try merged.hex in a few common places
+  local merged_hex=""
+  for p in \
+    "$builddir/zephyr/merged.hex" \
+    "$builddir/$app_domain/zephyr/merged.hex" \
+    "$builddir/mcuboot/zephyr/merged.hex"
+  do
+    [[ -f "$p" ]] && merged_hex="$p" && break
+  done
+
+  if [[ -n "$merged_hex" ]]; then
+    echo "✅ Flashing merged image: $merged_hex"
+    westz flash --hex-file "$merged_hex" -r openocd -- \
+      --openocd "$OPENOCD_MG24" \
+      --openocd-search "$OPENOCD_SCRIPTS_MG24"
+    return $?
+  fi
+
+  echo "⚠️ merged.hex not found, flashing MCUboot + $app_domain separately"
+
+  westz flash -d "$builddir" -r openocd --domain mcuboot -- \
+    --openocd "$OPENOCD_MG24" \
+    --openocd-search "$OPENOCD_SCRIPTS_MG24" || return $?
+
+  westz flash -d "$builddir" -r openocd --domain "$app_domain" -- \
+    --openocd "$OPENOCD_MG24" \
+    --openocd-search "$OPENOCD_SCRIPTS_MG24"
+}
+
+# --- Flash app only (works for normal builds and sysbuild builds) ---
 xiao_nrf54_cpuapp_flash () {
   local src="${1:-$PWD}"
   local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
+
+  echo "🚀 Flashing app"
+  echo "  Build: $builddir"
+
+  [[ -d "$builddir" ]] || { echo "❌ Build dir not found: $builddir"; return 1; }
+
   westn flash -d "$builddir"
+}
+
+# --- Detect sysbuild app domain from domains.yaml ---
+xiao_nrf54_detect_sysbuild_app_domain () {
+  local builddir="$1"
+  local f="$builddir/domains.yaml"
+
+  [[ -f "$f" ]] || return 1
+
+  # Extract any "name: XYZ" regardless of indentation or "-" presence
+  # Then drop mcuboot and pick the first remaining
+  sed -nE 's/^[[:space:]]*-?[[:space:]]*name:[[:space:]]*("?)([^"]+)\1[[:space:]]*$/\2/p' "$f" \
+    | grep -Ev '^(mcuboot|sysbuild|zephyr)$' \
+    | head -n1
+}
+
+# --- Flash MCUboot + app (only if builddir is sysbuild) ---
+xiao_nrf54_cpuapp_flash_all () {
+  local src="${1:-$PWD}"
+  local board="${2:-$NRF54_APP_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🏭 Factory flash (MCUboot + app if sysbuild)"
+  echo "  Build: $builddir"
+
+  [[ -d "$builddir" ]] || { echo "❌ Build dir not found: $builddir"; return 1; }
+
+  # If not a sysbuild build, just flash the app
+  if [[ ! -f "$builddir/domains.yaml" && ! -d "$builddir/mcuboot" ]]; then
+    echo "⚠️ Not a sysbuild build (no domains.yaml / mcuboot/). Flashing app only."
+    westn flash -d "$builddir"
+    return $?
+  fi
+
+  # Prefer a merged hex if it exists (try common places, then fallback to find)
+  local merged_hex=""
+  for p in \
+    "$builddir/zephyr/merged.hex" \
+    "$builddir/zephyr/merged_domains.hex" \
+    "$builddir/zephyr/merged_image.hex" \
+    "$builddir/merged.hex"
+  do
+    [[ -f "$p" ]] && merged_hex="$p" && break
+  done
+
+  if [[ -z "$merged_hex" ]]; then
+    merged_hex="$(find "$builddir" -maxdepth 3 -name "merged*.hex" 2>/dev/null | head -n1)"
+  fi
+
+  if [[ -n "$merged_hex" ]]; then
+    echo "✅ Found merged image:"
+    echo "  $merged_hex"
+    echo "➡️ Trying to flash merged image..."
+    if westn flash -d "$builddir" --hex-file "$merged_hex"; then
+      return 0
+    fi
+    echo "⚠️ Merged hex flash failed (runner may not support --hex-file). Falling back..."
+  fi
+
+  # Otherwise flash domains (most reliable sysbuild method)
+  local app_domain=""
+  app_domain="$(xiao_nrf54_detect_sysbuild_app_domain "$builddir")"
+
+  if [[ -z "$app_domain" ]]; then
+    echo "⚠️ Sysbuild detected but couldn't parse app domain from domains.yaml"
+    echo "➡️ Trying: west flash --domain-flash (flash all domains)"
+    westn flash -d "$builddir" --domain-flash
+    return $?
+  fi
+
+  echo "✅ Detected app domain: $app_domain"
+  echo "➡️ Flashing mcuboot domain..."
+  westn flash -d "$builddir" --domain mcuboot || return $?
+
+  echo "➡️ Flashing app domain ($app_domain)..."
+  westn flash -d "$builddir" --domain "$app_domain"
 }
 
 xiao_nrf54_cpuapp_debug () {
@@ -243,5 +385,188 @@ xiao_ra4m1_flash () {
   xiao_ra4m1_build "$src" "$board" || return $?
 
   echo "🚀 Flashing from $builddir ..."
-  westr flash -d "$builddir"
+  westr flash -d "$builddir" -r rfp -- --rfp-cli "$RFP_CLI"
 }
+
+blackpillf401cc_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$BLACKPILLF401CC_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Workspace:  $ZEPHYR_WORKSPACE_XIAO"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  wests build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+
+blackpillf401cc_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$BLACKPILLF401CC_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  blackpillf401cc_build "$src" "$board" || return $?
+
+  echo ""
+  echo "🧷 Put BlackPill into DFU mode:"
+  echo "  1) Hold BOOT0"
+  echo "  2) Tap RESET"
+  echo "  3) Release BOOT0"
+  echo ""
+  echo "🔎 Checking DFU device..."
+  dfu-util -l || return $?
+
+  echo "🚀 Flashing:"
+  echo "------------------------------------"
+
+  wests flash -d "$builddir"
+}
+
+# One-shot alias: pristine build + dfu flash
+blackpillf401cc_build_flash () { blackpillf401cc_flash "$@"; }
+
+
+xiao_samd21_build() {
+  local src="${1:-$PWD}"
+  local board="${2:-$XIAO_SAMD21_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"  # replace / with _
+
+  echo "🧱 Performing pristine build:"
+  echo "  Workspace:  $ZEPHYR_WORKSPACE_XIAO"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  westz build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_samd21_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$XIAO_SAMD21_DEFAULT}"
+  shift 2 2>/dev/null || true
+
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  xiao_samd21_build "$src" "$board" || return $?
+
+  echo "🚀 Flashing from $builddir ..."
+  westz flash -d "$builddir" "$@"
+}
+
+xiao_ra4m1_flash_rfpcli () {
+  local src="${1:-$PWD}"
+  local board="${2:-$RA4M1_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board}"
+  local hex="${builddir}/zephyr/zephyr.hex"
+  local rfp="${RFP_CLI:-/Users/yogesh/renesas_rfp/rfp-cli}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  westr build -p always -b "$board" -s "$src" -d "$builddir" || return $?
+
+  if [ ! -f "$hex" ]; then
+    echo "❌ HEX not found: $hex"
+    return 1
+  fi
+
+  echo ""
+  echo "➡️  Enter RA boot mode (most stable):"
+  echo "   Unplug → hold BOOT → plug USB → wait 2–3s → release BOOT"
+  echo ""
+
+  # Force the port that actually works for you
+  local port="/dev/tty.usbmodem101"
+
+  # Make sure nothing is holding the port
+  if lsof | grep -q "usbmodem101"; then
+    echo "❌ Something is using usbmodem101. Close Serial Monitor/VSCode/Arduino and retry."
+    lsof | grep "usbmodem101"
+    return 1
+  fi
+
+  echo "🚀 Step 1: Full chip erase (standalone)"
+  "$rfp" -d RA -port "$port" -if uart -s 19200 -erase-chip || return $?
+
+  echo ""
+  echo "➡️  Re-enter RA boot mode again (same BOOT method), then press Enter."
+  read -r
+
+  echo "🚀 Step 2: Program + run @ 19200"
+  "$rfp" -d RA -port "$port" -if uart -s 19200 -program -run "$hex"
+}
+
+rp_build () {
+  local src="${1:-$PWD}"
+  local board="${2:-$RP2040_BOARD_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "🧱 Performing pristine build:"
+  echo "  Workspace:  $ZEPHYR_WORKSPACE_ZEPHYRPROJECT"
+  echo "  Source:     $src"
+  echo "  Build dir:  $builddir"
+  echo "  Board:      $board"
+  echo "------------------------------------"
+
+  westrp build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+# -------- Flash via west (runner) --------
+# Usage: rp_flash [src_dir=. ] [board=<board>] [extra west flash args...]
+rp_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$XIAO_RP2040_BOARD_DEFAULT}"
+  shift 2 2>/dev/null || true
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "⚙️  Building (pristine) before flashing..."
+  rp_build "$src" "$board" || return $?
+
+  echo "🚀 west flash from $builddir ..."
+  westrp flash -d "$builddir" "$@"
+}
+
+# -------- UF2 copy (drag & drop) --------
+# Usage: rp_uf2 [src_dir=. ] [board=<board>] [uf2_volume=/Volumes/RPI-RP2]
+rp_uf2 () {
+  local src="${1:-$PWD}"
+  local board="${2:-$XIAO_RP2040_BOARD_DEFAULT}"
+  local vol="${3:-$UF2_VOL_RP2040_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+  local uf2="${builddir}/zephyr/zephyr.uf2"
+
+  echo "⚙️  Building (pristine) before UF2 copy..."
+  rp_build "$src" "$board" || return $?
+
+  if [ ! -f "$uf2" ]; then
+    echo "❌ UF2 not found: $uf2"
+    echo "   (Some boards don’t emit UF2 by default.)"
+    return 1
+  fi
+  if [ ! -d "$vol" ]; then
+    echo "❌ UF2 volume not found: $vol"
+    echo "   Put board in BOOTSEL mode and mount it (e.g. RPI-RP2)."
+    return 1
+  fi
+
+  echo "📦 Copying UF2 to $vol ..."
+  cp -f "$uf2" "$vol"/
+  sync
+  echo "✅ Done. Board should reboot automatically."
+}
+
+# -------- Convenience wrappers --------
+# RP2040
+xiao_rp2040_build() { rp_build "${1:-$PWD}" "${2:-$XIAO_RP2040_BOARD_DEFAULT}"; }
+xiao_rp2040_flash() { rp_flash "${1:-$PWD}" "${2:-$XIAO_RP2040_BOARD_DEFAULT}" "${@:3}"; }
+xiao_rp2040_uf2()   { rp_uf2   "${1:-$PWD}" "${2:-$XIAO_RP2040_BOARD_DEFAULT}" "${3:-$UF2_VOL_RP2040_DEFAULT}"; }
+
+# RP2350
+xiao_rp2350_build() { rp_build "${1:-$PWD}" "${2:-$XIAO_RP2350_BOARD_DEFAULT}"; }
+xiao_rp2350_flash() { rp_flash "${1:-$PWD}" "${2:-$XIAO_RP2350_BOARD_DEFAULT}" "${@:3}"; }
+xiao_rp2350_uf2()   { rp_uf2   "${1:-$PWD}" "${2:-$XIAO_RP2350_BOARD_DEFAULT}" "${3:-$UF2_VOL_RP2350_DEFAULT}"; }

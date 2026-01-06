@@ -1,0 +1,52 @@
+/delete-node/ &boot_partition;
+/delete-node/ &slot0_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &storage_partition;
+
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+    };
+
+    chosen {
+		zephyr,flash-controller = &rram_controller;
+		zephyr,flash = &cpuapp_rram;
+		zephyr,code-partition = &slot0_partition;
+	};
+};
+
+&cpuapp_rram {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        boot_partition: partition@0 {
+            label = "mcuboot";
+            reg = <0x0 DT_SIZE_K(96)>;
+        };
+
+        slot0_partition: partition@18000 {
+            label = "image-0";
+            reg = <0x18000 DT_SIZE_K(600)>;
+        };
+
+        slot1_partition: partition@ae000 {
+            label = "image-1";
+            reg = <0xAE000 DT_SIZE_K(600)>;
+        };
+
+        storage_partition: partition@144000 {
+            label = "storage";
+            reg = <0x144000 DT_SIZE_K(36)>;
+        };
+    };
+};

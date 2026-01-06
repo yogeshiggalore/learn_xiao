@@ -1,0 +1,4 @@
+1. brew install bossa
+2. which bossac
+    you should see /opt/homebrew/bin/bossac
+    

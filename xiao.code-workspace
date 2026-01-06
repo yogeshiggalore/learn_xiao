@@ -28,7 +28,11 @@
 			"${workspaceFolder}/firmware/samples/spi/spi_01",
 			"${workspaceFolder}/firmware/samples/spi/spi_02",
 			"${workspaceFolder}/firmware/samples/debug/db_01",
-			"${workspaceFolder}/firmware/samples/adc/adc_01"
+			"${workspaceFolder}/firmware/samples/adc/adc_01",
+			"${workspaceFolder}/firmware/samples/pdm/pdm_01",
+			"${workspaceFolder}/firmware/samples/ble/ibecon_01",
+			"${workspaceFolder}/firmware/samples/ble/adv_01",
+			"${workspaceFolder}/firmware/samples/dfu/dfu_01"
 		]
 	}
 }

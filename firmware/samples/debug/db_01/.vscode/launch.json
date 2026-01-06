@@ -7,7 +7,7 @@
       "request": "attach",
       "servertype": "external",
       "cwd": "${workspaceFolder}",
-      "executable": "${workspaceFolder:}/firmware/samples/debug/db_01/build-cy8cproto_063_ble/zephyr/zephyr.elf",
+      "executable": "${workspaceFolder:}/build-cy8cproto_063_ble/zephyr/zephyr.elf",
       "gdbPath": "/opt/homebrew/bin/arm-none-eabi-gdb",
       "gdbTarget": "localhost:3334"
     },

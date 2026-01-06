@@ -1,0 +1,7 @@
+2.  crash with address 
+    a. for example crashed and address is 0x00009A82
+    b. open terminal from the project.
+    c. goto toolchain path ex: cd /opt/nordic/ncs/toolchains/15b490767d/opt/zephyr-sdk/arm-zephyr-eabi/bin
+    d. run command arm-zephyr-eabi-addr2line -e /Users/yogesh/projects/continue/firmware/uh_continue/samples/tmp119_test/build_chrgpror1/tmp119_test/zephyr/zephyr.elf 0x00009A82
+
+    ./arm-zephyr-eabi-addr2line -e /Users/yogesh/projects/temp/xiao/learn_xiao/firmware/samples/ble/ibecon_01/build-xiao_nrf54l15/ibecon_01/zephyr/zephyr.elf 0x0000ab44

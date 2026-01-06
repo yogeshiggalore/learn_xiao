@@ -1,0 +1,65 @@
+/delete-node/ &boot_partition;
+/delete-node/ &slot0_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &storage_partition;
+
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpioa 7 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+    };
+
+    chosen {
+		zephyr,bt-hci = &bt_hci_silabs;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,console = &usart0;
+		zephyr,flash = &flash0;
+		zephyr,shell-uart = &usart0;
+		zephyr,sram = &sram0;
+		zephyr,uart-pipe = &usart0;
+	};
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* Reserve 96 kB for the bootloader */
+		boot_partition: partition@0 {
+			reg = <0x0 DT_SIZE_K(96)>;
+			label = "mcuboot";
+		};
+
+		/* Reserve 696 kB for the application in slot 0 */
+		slot0_partition: partition@18000 {
+			reg = <0x00018000 0x000AE000>;
+			label = "image-0";
+		};
+
+		/* Reserve 696 kB for the application in slot 1 */
+		slot1_partition: partition@C6000 {
+			reg = <0x000C6000 0x000AE000>;
+			label = "image-1";
+		};
+
+		config_partition: partition@174000 {
+			reg = <0x00174000 DT_SIZE_K(16)>;
+			label = "config";
+		};
+
+		/* Set 32 kB of storage at the end of the 1536 kB of flash */
+		storage_partition: partition@178000 {
+			reg = <0x00178000 DT_SIZE_K(32)>;
+			label = "storage";
+		};
+	};
+};

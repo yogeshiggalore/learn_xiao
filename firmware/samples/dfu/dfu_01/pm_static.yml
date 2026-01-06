@@ -1,0 +1,58 @@
+mcuboot:
+  region: flash_primary
+  address: 0x00000000
+  size: 0x00018000          # 96 KB
+
+mcuboot_pad:
+  region: flash_primary
+  address: 0x00018000
+  size: 0x00000800          # 2 KB
+
+app:
+  region: flash_primary
+  address: 0x00018800
+  size: 0x00095800          # 0x96000 - 0x800
+
+mcuboot_primary:
+  region: flash_primary
+  address: 0x00018000
+  size: 0x00096000          # 600 KB
+  span:
+    - mcuboot_pad
+    - app
+
+mcuboot_primary_app:
+  region: flash_primary
+  address: 0x00018800
+  size: 0x00095800
+  span:
+    - app
+
+mcuboot_secondary_pad:
+  region: flash_primary
+  address: 0x000AE000
+  size: 0x00000800
+
+mcuboot_secondary_app:
+  region: flash_primary
+  address: 0x000AE800
+  size: 0x00095800
+
+mcuboot_secondary:
+  region: flash_primary
+  address: 0x000AE000
+  size: 0x00096000
+  span:
+    - mcuboot_secondary_pad
+    - mcuboot_secondary_app
+
+settings_storage:
+  region: flash_primary
+  address: 0x00144000
+  size: 0x00009000          # 36 KB
+
+# Fill the remaining end-gap so PM sees only ONE gap total
+flash_tail:
+  region: flash_primary
+  address: 0x0014D000
+  size: 0x00018000          # 96 KB (fills 0x14D000-0x165000)

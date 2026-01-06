@@ -1,0 +1,3 @@
+1. download Renesas Flash Programmer V3.21.00 macOS(ARM64) or similar
+2. extract to know location /Users/yogesh/renesas_rfp
+3. 

@@ -75,3 +75,10 @@ ZBUS:
 
 Debug:
     1. db_01: test debug working
+
+BLE:
+    1. ibeacon_01: ibeacon example
+    2. adv_01: ble adv example code
+
+DFU:
+    1. dfu_01: ble based mcuboot dfu
