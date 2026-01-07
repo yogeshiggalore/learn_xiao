@@ -1,0 +1,2 @@
+1. cd webapp
+2. uvicorn main:app --reload --port 9000

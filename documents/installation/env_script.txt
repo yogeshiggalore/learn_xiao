@@ -295,7 +295,7 @@ psoc6_build () {
   local board="${2:-$INFINEON_BOARD_DEFAULT}"
   local builddir="${src}/build-${board}"
 
-  echo "🧱 Performing pristine build:"
+  echo "🧱 Performing pristine sysbuild:"
   echo "  Workspace:  $ZEPHYR_WORKSPACE_ZEPHYRPROJECT"
   echo "  Source:     $src"
   echo "  Build dir:  $builddir"
@@ -306,7 +306,12 @@ psoc6_build () {
   # Ensure OPENOCD cmake arg is set for this workspace
   infineon_zephyr_config_openocd || return $?
 
-  westi build -p always -b "$board" -s "$src" -d "$builddir"
+  westi build \
+    -p always \
+    --sysbuild \
+    -b "$board" \
+    -s "$src" \
+    -d "$builddir"
 }
 
 # Flash (auto pristine rebuild)

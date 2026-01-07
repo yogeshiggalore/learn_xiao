@@ -111,33 +111,67 @@ function updatePortMeta() {
 
 function initPlot() {
   const N = Math.floor(sampleRateHz * WINDOW_SECONDS);
-  // x axis will be seconds (absolute), we’ll keep it scrolling.
-  const x = Array.from({length: Math.min(N, MAX_PLOT_POINTS)}, (_, i) => i);
-  const y = Array(x.length).fill(0);
+  const M = Math.min(N, MAX_PLOT_POINTS);
+
+  // initialize in seconds so axis label is correct
+  const x = Array.from({ length: M }, (_, i) => i / sampleRateHz);
+  const y = Array(M).fill(0);
 
   const layout = {
-    margin: {l: 18, r: 10, t: 8, b: 26},
+    margin: { l: 55, r: 20, t: 18, b: 40 },
+    paper_bgcolor: "white",
+    plot_bgcolor: "white",
+
     xaxis: {
       title: "Time (s)",
-      showgrid: false,
+      showgrid: true,
+      gridcolor: "rgba(0,0,0,0.06)",
       zeroline: false,
-      showticklabels: true,
+      ticks: "outside",
+      ticklen: 4,
     },
+
     yaxis: {
-      title: "",
-      showgrid: false,        // ✅ no busy grid
-      zeroline: true,         // keep center line
-      showticklabels: false,  // ✅ remove 10k/20k labels
-      range: [-32768, 32767]
+      title: "Amplitude (i16)",
+      showgrid: true,
+      gridcolor: "rgba(0,0,0,0.06)",
+      zeroline: true,
+      zerolinecolor: "rgba(0,0,0,0.18)",
+      ticks: "outside",
+      ticklen: 4,
+      autorange: true,
     },
+
     showlegend: false,
-    paper_bgcolor: "#ffffff",
-    plot_bgcolor: "#ffffff",
-    font: { color: "#1c2430" },
+
+    annotations: [{
+      xref: "paper",
+      yref: "paper",
+      x: 0.01,
+      y: 0.99,
+      xanchor: "left",
+      yanchor: "top",
+      text: "min: —   max: —   avg: —",
+      showarrow: false,
+      font: { size: 12, color: "rgba(0,0,0,0.75)" },
+      bgcolor: "rgba(255,255,255,0.85)",
+      bordercolor: "rgba(0,0,0,0.08)",
+      borderwidth: 1,
+      borderpad: 6
+    }],
   };
 
-  Plotly.newPlot("chart", [{x, y, mode:"lines"}], layout, {displayModeBar:false, responsive:true});
+  const trace = {
+    x,
+    y,
+    mode: "lines",
+    line: { width: 2 },
+    hoverinfo: "skip",
+  };
+
+  Plotly.newPlot("chart", [trace], layout, { displayModeBar: false, responsive: true });
 }
+
 
 function downsampleForPlot(samples) {
   if (samples.length <= MAX_PLOT_POINTS) return samples;

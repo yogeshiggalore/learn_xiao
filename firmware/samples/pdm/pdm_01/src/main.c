@@ -17,6 +17,9 @@
 #define BLOCK_SIZE_BYTES    (SAMPLES_PER_BLOCK * BYTES_PER_SAMPLE * CHANNELS)
 #define BLOCK_COUNT         64
 
+#define FRAME_HDR 0xAA55AA55u
+#define FRAME_FTR 0xA5A5A5A5u
+
 K_MEM_SLAB_DEFINE(audio_slab, BLOCK_SIZE_BYTES, BLOCK_COUNT, 4);
 
 /* ---------- TLV Types ---------- */
@@ -46,12 +49,24 @@ static struct k_thread tx_thread_data;
 
 static const struct device *uart_dev;
 
+
+
 /* --- UART helpers (polling; simple + works everywhere) --- */
 static void uart_send_bytes_poll(const uint8_t *data, size_t len)
 {
     for (size_t i = 0; i < len; i++) {
         uart_poll_out(uart_dev, data[i]);
     }
+}
+
+static void uart_send_u32_le_raw(uint32_t v)
+{
+    uint8_t b[4];
+    b[0] = (uint8_t)(v & 0xFF);
+    b[1] = (uint8_t)((v >> 8) & 0xFF);
+    b[2] = (uint8_t)((v >> 16) & 0xFF);
+    b[3] = (uint8_t)((v >> 24) & 0xFF);
+    uart_send_bytes_poll(b, 4);
 }
 
 /* TLV: T(1) + L(2 LE) + V(L) */
@@ -62,10 +77,14 @@ static void uart_send_tlv(uint8_t type, const void *val, uint16_t len)
     hdr[1] = (uint8_t)(len & 0xFF);
     hdr[2] = (uint8_t)((len >> 8) & 0xFF);
 
+    uart_send_u32_le_raw(FRAME_HDR);
+    
     uart_send_bytes_poll(hdr, sizeof(hdr));
     if (len > 0 && val != NULL) {
         uart_send_bytes_poll((const uint8_t *)val, len);
     }
+
+    uart_send_u32_le_raw(FRAME_FTR);
 }
 
 static void uart_send_u32_le(uint8_t type, uint32_t v)

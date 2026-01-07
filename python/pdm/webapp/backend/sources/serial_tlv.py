@@ -15,19 +15,28 @@ from typing import Optional, Callable
 TLV_PCM = 0x01  # V = int16 LE PCM bytes
 TLV_TS  = 0x02  # V = uint32 LE timestamp ms
 
+FRAME_HDR = 0xAA55AA55
+FRAME_FTR = 0xA5A5A5A5
+MAX_L = 4096
+
 @dataclass
 class SerialConfig:
     baud: int
     sample_rate_hz: int  # used for metadata only (device doesn't need it)
 
 class SerialTLVSource(AudioSource):
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        on_rx_tlv: Optional[Callable[[int, int], None]] = None,
+        log_cb: Optional[Callable[[str, str], None]] = None,
+    ) -> None:
         self._ser: Optional[serial.Serial] = None
         self._cfg: Optional[SerialConfig] = None
         self._stop = threading.Event()
         self._thread: Optional[threading.Thread] = None
         self._q: "Queue[AudioFrame]" = Queue(maxsize=64)
         self._last_ts: Optional[int] = None
+
         self._on_rx_tlv = on_rx_tlv
         self._log_cb = log_cb
 
@@ -104,60 +113,96 @@ class SerialTLVSource(AudioSource):
     def _reader_loop(self) -> None:
         assert self._ser is not None
 
+        ALLOWED_TYPES = {TLV_TS, TLV_PCM, 0x7F}  # TS, PCM, SYNC (optional)
+
+        # sliding 4-byte window to find header
+        win = bytearray()
+
+        def read_u32_le(b: bytes) -> int:
+            return int.from_bytes(b, "little")
+
         while not self._stop.is_set():
             try:
-                t = self._ser.read(1)
-                if not t:
+                # ---- 1) Find header 0xAA55AA55 ----
+                while not self._stop.is_set():
+                    b = self._ser.read(1)
+                    if not b:
+                        continue
+                    win += b
+                    if len(win) > 4:
+                        del win[0]
+                    if len(win) == 4 and read_u32_le(win) == FRAME_HDR:
+                        break
+
+                if self._stop.is_set():
+                    break
+
+                # ---- 2) Read TLV header: T(1) + L(2 LE) ----
+                t_b = self._read_exact(1)
+                if len(t_b) != 1:
                     continue
-                t = t[0]
+                t = t_b[0]
 
                 l_bytes = self._read_exact(2)
                 if len(l_bytes) != 2:
                     continue
                 (L,) = struct.unpack("<H", l_bytes)
-                # Log header + byte count (T + Llo + Lhi)
-                if self._on_rx_tlv:
-                    hdr = bytes([t]) + l_bytes
-                    hdr_hex = " ".join(f"{b:02X}" for b in hdr)
-                    total = 3 + L
-                    self._on_rx_tlv(t, L)  # optional raw callback
-                    # also log a nice string (recommended)
-                    try:
-                        self._on_rx_tlv.__self__.add_log(  # works if callback is hub.add_log bound method
-                            f"RX TLV hdr=[{hdr_hex}]  T=0x{t:02X}  L={L}  total={total} bytes",
-                            "dim"
-                        )
-                    except Exception:
-                        pass
 
+                # Reject false header hits early
+                if t not in ALLOWED_TYPES:
+                    if self._log_cb:
+                        self._log_cb(f"Unknown TLV type 0x{t:02X} after header; resync", "warn")
+                    win.clear()
+                    continue
+
+                if L > MAX_L:
+                    if self._log_cb:
+                        self._log_cb(f"Bad TLV length {L}, resyncing...", "warn")
+                    win.clear()
+                    continue
+
+                # ---- 3) Read value ----
                 v = self._read_exact(L) if L else b""
                 if len(v) != L:
+                    win.clear()
                     continue
 
+                # ---- 4) Read footer EXACTLY 4 bytes ----
+                ftr = self._read_exact(4)
+                if len(ftr) != 4 or read_u32_le(ftr) != FRAME_FTR:
+                    if self._log_cb:
+                        got = read_u32_le(ftr) if len(ftr) == 4 else None
+                        self._log_cb(f"Footer mismatch (got={got}), resyncing...", "warn")
+                    win.clear()
+                    continue
+
+                # ---- 5) Process TLV ----
                 if t == TLV_TS and L == 4:
                     (self._last_ts,) = struct.unpack("<I", v)
-                    continue
 
-                if t == TLV_PCM:
+                elif t == TLV_PCM:
                     if L % 2 != 0:
                         continue
                     samples = struct.unpack("<" + "h" * (L // 2), v)
                     frame = AudioFrame(timestamp_ms=self._last_ts, samples_i16=list(samples))
                     try:
                         self._q.put_nowait(frame)
+                        if self._log_cb:
+                            self._log_cb(f"Queued PCM frame: {len(samples)} samples ts={self._last_ts}", "ok")
                     except Exception:
-                        # drop if UI/recording can't keep up
                         pass
+
+                # ---- 6) Log (optional) ----
                 if self._log_cb:
-                    hdr = bytes([t]) + l_bytes
-                    hdr_hex = " ".join(f"{b:02X}" for b in hdr)
-                    total = 3 + L
-                    self._log_cb(
-                        f"RX TLV hdr=[{hdr_hex}]  T=0x{t:02X}  L={L}  total={total} bytes",
-                        "dim"
-                    )
+                    hdr_hex = " ".join(f"{b:02X}" for b in (bytes([t]) + l_bytes))
+                    self._log_cb(f"RX FRAMED TLV: T=0x{t:02X} L={L} hdr=[{hdr_hex}]", "dim")
+
+                win.clear()  # clean slate after a good frame
 
             except (serial.SerialException, OSError):
                 break
             except Exception:
+                win.clear()
                 continue
+
+

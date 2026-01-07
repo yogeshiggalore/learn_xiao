@@ -243,3 +243,13 @@ button:disabled{
   }
   .chart{ height:420px; }
 }
+
+#plot {
+  height: 420px;          /* or 55vh */
+  width: 100%;
+}
+
+.card {
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+}
