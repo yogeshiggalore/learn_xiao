@@ -225,46 +225,95 @@ xiao_nrf54_cpuflpr_flash () {
   westn flash -d "$builddir"
 }
 
-xiao_esp32s3_appcpu_build () {
-  local src="${1:-$PWD}"
-  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
-  local builddir="${src}/build-${board//\//_}"   # replace / with _ for folder
 
-  echo "🧱 Performing pristine build:"
-  echo "  Source:     $src"
-  echo "  Build dir:  $builddir"
-  echo "  Board:      $board"
-  echo "------------------------------------"
-
-  weste build -p always -b "$board" -s "$src" -d "$builddir"
+xiao_esp32s3_detect_app_domain () {
+  local builddir="$1"
+  find "$builddir" -maxdepth 1 -mindepth 1 -type d \
+    ! -name mcuboot ! -name zephyr ! -name sysbuild ! -name modules ! -name CMakeFiles ! -name _deps \
+    -exec test -d "{}/zephyr" \; -print \
+  | head -n1 | xargs -I{} basename "{}"
 }
 
-xiao_esp32s3_appcpu_flash () {
-  local src="${1:-$PWD}"
-  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
-  local builddir="${src}/build-${board//\//_}"
-  weste flash -d "$builddir"
-}
 
-xiao_esp32s3_procpu_build () {
+xiao_esp32s3_procpu_build_app () {
   local src="${1:-$PWD}"
   local board="${2:-$ESP32S3_SENSE_PROCPU_DEFAULT}"
   local builddir="${src}/build-${board//\//_}"
 
-  echo "🧱 Performing pristine build:"
-  echo "  Source:     $src"
-  echo "  Build dir:  $builddir"
-  echo "  Board:      $board"
-  echo "------------------------------------"
+  echo "🧱 Building (ESP32S3 app-only)"
+  echo "  Source: $src"
+  echo "  Build:  $builddir"
 
   weste build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_esp32s3_procpu_build_sys () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_PROCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "🧱 Building (ESP32S3 + sysbuild)"
+  echo "  Source: $src"
+  echo "  Build:  $builddir"
+
+  weste build -p always --sysbuild -b "$board" -s "$src" -d "$builddir"
 }
 
 xiao_esp32s3_procpu_flash () {
   local src="${1:-$PWD}"
   local board="${2:-$ESP32S3_SENSE_PROCPU_DEFAULT}"
   local builddir="${src}/build-${board//\//_}"
-  weste flash -d "$builddir"
+
+  [[ -d "$builddir" ]] || { echo "❌ Build directory not found: $builddir"; return 1; }
+
+  if [[ -f "$builddir/domains.yaml" ]]; then
+    echo "⚡ Detected sysbuild → flashing top-level sysbuild"
+    weste -v flash -d "$builddir"
+  else
+    echo "⚡ Detected app-only build → flashing app"
+    weste flash -d "$builddir"
+  fi
+}
+
+
+xiao_esp32s3_appcpu_build_app () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "🧱 Building (ESP32S3 app-only)"
+  echo "  Source: $src"
+  echo "  Build:  $builddir"
+
+  weste build -p always -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_esp32s3_appcpu_build_sys () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  echo "🧱 Building (ESP32S3 + sysbuild)"
+  echo "  Source: $src"
+  echo "  Build:  $builddir"
+
+  weste build -p always --sysbuild -b "$board" -s "$src" -d "$builddir"
+}
+
+xiao_esp32s3_appcpu_flash () {
+  local src="${1:-$PWD}"
+  local board="${2:-$ESP32S3_SENSE_APPCPU_DEFAULT}"
+  local builddir="${src}/build-${board//\//_}"
+
+  [[ -d "$builddir" ]] || { echo "❌ Build directory not found: $builddir"; return 1; }
+
+  if [[ -f "$builddir/domains.yaml" ]]; then
+    echo "⚡ Detected sysbuild → flashing top-level sysbuild"
+    weste -v flash -d "$builddir"
+  else
+    echo "⚡ Detected app-only build → flashing app"
+    weste flash -d "$builddir"
+  fi
 }
 
 xiao_esp32s3_monitor(){

@@ -1,0 +1,4 @@
+change iram_seg to 0xd000
+soc/espressif/esp32s3/memory.h
+
+#define BOOTLOADER_IRAM_SEG_LEN        0xd000
