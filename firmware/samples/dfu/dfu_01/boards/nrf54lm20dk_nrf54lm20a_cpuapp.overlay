@@ -1,0 +1,62 @@
+/delete-node/ &boot_partition;
+/delete-node/ &slot0_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &storage_partition;
+
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpio1 22 GPIO_ACTIVE_HIGH>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+    };
+
+    chosen {
+		zephyr,flash-controller = &rram_controller;
+		zephyr,flash = &cpuapp_rram;
+		zephyr,code-partition = &slot0_partition;
+	};
+};
+
+
+&cpuapp_rram {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/* nRF54LM20A has 2036 kB of non-volatile memory (RRAM) but the last
+		 * 96 kB are reserved for the FLPR MCU, so we have ~1940 kB available.
+		 */
+
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x0 DT_SIZE_K(96)>;
+		};
+
+		slot0_partition: partition@18000 {
+			label = "image-0";
+			reg = <0x18000 DT_SIZE_K(900)>;
+		};
+
+		slot1_partition: partition@f9000 {
+			label = "image-1";
+			reg = <0xf9000 DT_SIZE_K(900)>;
+		};
+		
+		cfg_partition: partition@1da000 {
+			label = "cfg";
+			reg = <0x1da000 DT_SIZE_K(12)>;
+		};
+
+		storage_partition: partition@1dd000 {
+			label = "storage";
+			reg = <0x1dd000 DT_SIZE_K(32)>;
+		};
+	};
+};
