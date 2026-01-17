@@ -1,8 +1,8 @@
 / {
-    pdm_imu_pwr: pdm-imu-pwr {
+    imu_pwr: imu-pwr {
 		compatible = "regulator-fixed";
-		regulator-name = "pdm-imu-pwr";
-		enable-gpios = <&gpiod 5 GPIO_ACTIVE_LOW>;
+		regulator-name = "imu-pwr";
+		enable-gpios = <&gpiod 5 GPIO_ACTIVE_HIGH>;
 		regulator-boot-on;
         regulator-always-on;
 		startup-delay-us = <5000>;
@@ -20,12 +20,6 @@
             label = "app switch 0";
         };
     };
-
-    // i2c1 {
-    //     status = "okay";
-    //     pinctrl-0 = <&i2c1_default>;
-	//     pinctrl-names = "default";
-    // };
 
     aliases {
         appled0 = &appled0;
@@ -65,7 +59,7 @@
 
 	i2c1_default: i2c1_default {
 		group0 {
-			pins = <I2C0_SCL_PC4>, <I2C0_SDA_PC5>;
+			pins = <I2C1_SDA_PC5>, <I2C1_SCL_PC4>;
 			drive-open-drain;
 			bias-pull-up;
 		};

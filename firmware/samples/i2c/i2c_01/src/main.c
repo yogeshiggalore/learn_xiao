@@ -62,7 +62,7 @@ void scan_i2c_devices(const struct device *dev)
 	struct i2c_msg i2cmsg;
 
 	i2cmsg.buf = &data;
-	i2cmsg.len = 0;
+	i2cmsg.len = 1;
 	i2cmsg.flags = I2C_MSG_WRITE | I2C_MSG_STOP;
 
 	number_of_bytes = 1;

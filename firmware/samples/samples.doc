@@ -35,11 +35,16 @@ SPI:
     2. spi_02: read/write all registers of external flash
 
 Flash:
-    1. 
+    1. flash_01: read, write and erase internal flash content
+    2. flash_02: read, write and erase external flash content
 
 ADC:
     1. adc_01: read potentiometer values
+    2. adc_02: read microphone output
 
+IMU:
+    1. imu_01: read accelerometer and gyroscope values
+    
 RTC:
     1.
     
@@ -81,4 +86,4 @@ BLE:
     2. adv_01: ble adv example code
 
 DFU:
-    1. dfu_01: ble based mcuboot dfu
+    1. dfu_01: ble based mcuboot dfu internal flash

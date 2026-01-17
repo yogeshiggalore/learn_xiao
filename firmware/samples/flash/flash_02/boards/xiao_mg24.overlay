@@ -1,0 +1,89 @@
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        appled0: appled_0 {
+            gpios = <&gpioa 7 GPIO_ACTIVE_LOW>;
+            label = "app led 0";
+        };
+    };
+
+    aliases {
+        appled0 = &appled0;
+		exflash = &p25q32h;
+    };
+
+    chosen {
+		zephyr,bt-hci = &bt_hci_silabs;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,console = &usart0;
+		zephyr,flash = &flash0;
+		zephyr,shell-uart = &usart0;
+		zephyr,sram = &sram0;
+		zephyr,uart-pipe = &usart0;
+	};
+};
+
+&pinctrl {
+    eusart0_default: eusart0_default {
+        group0 {
+            /* MOSI + SCK */
+            pins = <EUSART0_TX_PB0>, <EUSART0_SCLK_PA0>;
+            drive-push-pull;
+            output-high;
+        };
+
+        group1 {
+            /* MISO */
+            pins = <EUSART0_RX_PB1>;
+            input-enable;
+            silabs,input-filter;
+        };
+    };
+};
+
+&eusart0 {
+    compatible = "silabs,eusart-spi";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <4000000>;
+	pinctrl-0 = <&eusart0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	cs-gpios = <&gpioa 6 GPIO_ACTIVE_LOW>;
+
+	p25q32h: p25q32h@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+        spi-max-frequency = <4000000>;
+		jedec-id = [85 60 16];
+		size = <33554432>;
+		has-dpd;
+		t-enter-dpd = <3000>;
+		t-exit-dpd = <8000>;
+
+		partitions {
+            compatible = "fixed-partitions";
+            #address-cells = <1>;
+            #size-cells = <1>;
+
+            /* 0x000000 - 0x00FFFF (64 KiB) */
+            ext_nvs: partition@0 {
+                label = "ext_nvs";
+                reg = <0x00000000 0x00010000>;
+            };
+
+            /* 0x010000 - 0x20FFFF (2 MiB) */
+            ext_lfs: partition@10000 {
+                label = "ext_lfs";
+                reg = <0x00010000 0x00200000>;
+            };
+
+            /* 0x210000 - 0x3FFFFF (rest ~1.94 MiB) */
+            ext_raw: partition@210000 {
+                label = "ext_raw";
+                reg = <0x00210000 0x001F0000>;
+            };
+        };
+	};
+};

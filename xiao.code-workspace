@@ -32,7 +32,11 @@
 			"${workspaceFolder}/firmware/samples/pdm/pdm_01",
 			"${workspaceFolder}/firmware/samples/ble/ibecon_01",
 			"${workspaceFolder}/firmware/samples/ble/adv_01",
-			"${workspaceFolder}/firmware/samples/dfu/dfu_01"
+			"${workspaceFolder}/firmware/samples/dfu/dfu_01",
+			"${workspaceFolder}/firmware/samples/flash/flash_01",
+			"${workspaceFolder}/firmware/samples/flash/flash_02",
+			"${workspaceFolder}/firmware/samples/adc/adc_02",
+			"${workspaceFolder}/firmware/samples/imu/imu_01"
 		]
 	}
 }

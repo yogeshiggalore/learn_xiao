@@ -1,0 +1,16 @@
+/ {
+
+    aliases {
+        imu0 = &lsm6ds3tr;
+    };
+};
+
+&i2c30 {
+    status = "okay";
+	lsm6ds3tr: lsm6dsl@6a {
+        compatible = "st,lsm6dsl";
+		reg = <0x6a>;
+		irq-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+};
